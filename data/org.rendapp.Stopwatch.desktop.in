@@ -1,0 +1,7 @@
+[Desktop Entry]
+Name=stopwatch
+Exec=org.rendapp.Stopwatch
+Terminal=false
+Type=Application
+Categories=GTK;
+StartupNotify=true

@@ -1,0 +1,7 @@
+data/org.rendapp.Stopwatch.desktop.in
+data/org.rendapp.Stopwatch.appdata.xml.in
+data/org.rendapp.Stopwatch.gschema.xml
+src/window.ui
+src/main.js
+src/window.js
+

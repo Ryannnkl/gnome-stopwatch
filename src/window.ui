@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk+" version="3.24"/>
+    <template class="StopwatchWindow" parent="GtkApplicationWindow">
+      <property name="default-width">600</property>
+    <property name="default-height">300</property>
+    <child type="titlebar">
+      <object class="GtkHeaderBar" id="headerBar">
+        <property name="visible">True</property>
+        <property name="show-close-button">True</property>
+        <property name="title">StopWatch!</property>
+      </object>
+    </child>
+    <child>
+      <object class="GtkBox">
+        <property name="visible">True</property>
+        <property name="orientation">vertical</property>
+        <property name="halign">center</property>
+        <property name="valign">center</property>
+        <property name="hexpand">True</property>
+        <child>
+          <!-- definição do relogio -->
+          <object class="GtkBox">
+            <property name="visible">True</property>
+            <property name="halign">center</property>
+            <property name="valign">center</property>
+            <property name="spacing">12</property>
+            <!-- horas -->
+            <child>
+              <object class="GtkSpinButton" id="hours_spinbutton">
+                <property name="visible">True</property>
+                <property name="orientation">vertical</property>
+                <property name="adjustment">hours_ajustment</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">:</property>
+              </object>
+            </child>
+            <!-- minutos -->
+            <child>
+              <object class="GtkSpinButton" id="minutes_spinbutton">
+                <property name="visible">True</property>
+                <property name="orientation">vertical</property>
+                <property name="adjustment">minutes_ajustment</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">:</property>
+              </object>
+            </child>
+            <!-- segundos -->
+            <child>
+              <object class="GtkSpinButton" id="seconds_spinbutton">
+                <property name="visible">True</property>
+                <property name="orientation">vertical</property>
+                <property name="adjustment">seconds_ajustment</property>
+              </object>
+            </child>
+          </object>
+        </child>
+        <!-- botões iniciais -->
+        <child>
+          <object class="GtkStack" id="stack">
+            <property name="visible">True</property>
+            <property name="halign">center</property>
+            <property name="valign">center</property>
+            <property name="hexpand">True</property>
+            <property name="vexpand">True</property>
+            <property name="transition-duration">300</property>
+            <property name="transition-type">GTK_STACK_TRANSITION_TYPE_SLIDE_DOWN</property>
+            <child>
+              <object class="GtkButton" id="start_button">
+                <property name="label">iniciar</property>
+                <property name="visible">True</property>
+                <style>
+                  <class name="suggested-action"/>
+                </style>
+              </object>
+              <packing>
+                <property name="name">start</property>
+                <property name="title" translatable="yes">start</property>
+              </packing>
+            </child>
+            <!-- pausar e parar -->
+            <child>
+              <object class="GtkBox">
+                <property name="visible">True</property>
+                <property name="halign">center</property>
+                <property name="valign">center</property>
+                <property name="spacing">12</property>
+                <child>
+                  <object class="GtkButton" id="pause_button">
+                    <property name="label" translatable="yes">pausar</property>
+                    <property name="visible">True</property>
+                  </object>
+                </child>
+                <child>
+                  <object class="GtkButton" id="stop_button">
+                    <property name="label">parar</property>
+                    <property name="visible">True</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="name">pause_stop</property>
+              </packing>
+            </child>
+          </object>
+        </child>
+      </object>
+
+      </child>
+    </template>
+    <!--ajustes da hora minuto e segundo do contador-->
+    <object class="GtkAdjustment" id="hours_ajustment">
+      <property name="lower">0</property>
+      <property name="upper">99</property>
+      <property name="value">0</property>
+      <property name="step-increment">1</property>
+    </object>
+    <object class="GtkAdjustment" id="minutes_ajustment">
+      <property name="lower">0</property>
+      <property name="upper">59</property>
+      <property name="value">0</property>
+      <property name="step-increment">1</property>
+    </object>
+    <object class="GtkAdjustment" id="seconds_ajustment">
+      <property name="lower">0</property>
+      <property name="upper">59</property>
+      <property name="value">0</property>
+      <property name="step-increment">1</property>
+    </object>
+  </interface>
