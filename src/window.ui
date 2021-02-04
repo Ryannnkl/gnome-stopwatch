@@ -30,7 +30,7 @@
               <object class="GtkSpinButton" id="hours_spinbutton">
                 <property name="visible">True</property>
                 <property name="orientation">vertical</property>
-                <property name="adjustment">hours_ajustment</property>
+                <property name="adjustment">hours_adjustment</property>
               </object>
             </child>
             <child>
@@ -44,7 +44,7 @@
               <object class="GtkSpinButton" id="minutes_spinbutton">
                 <property name="visible">True</property>
                 <property name="orientation">vertical</property>
-                <property name="adjustment">minutes_ajustment</property>
+                <property name="adjustment">minutes_adjustment</property>
               </object>
             </child>
             <child>
@@ -58,7 +58,7 @@
               <object class="GtkSpinButton" id="seconds_spinbutton">
                 <property name="visible">True</property>
                 <property name="orientation">vertical</property>
-                <property name="adjustment">seconds_ajustment</property>
+                <property name="adjustment">seconds_adjustment</property>
               </object>
             </child>
           </object>
@@ -117,19 +117,19 @@
       </child>
     </template>
     <!--ajustes da hora minuto e segundo do contador-->
-    <object class="GtkAdjustment" id="hours_ajustment">
+    <object class="GtkAdjustment" id="hours_adjustment">
       <property name="lower">0</property>
       <property name="upper">99</property>
       <property name="value">0</property>
       <property name="step-increment">1</property>
     </object>
-    <object class="GtkAdjustment" id="minutes_ajustment">
+    <object class="GtkAdjustment" id="minutes_adjustment">
       <property name="lower">0</property>
       <property name="upper">59</property>
       <property name="value">0</property>
       <property name="step-increment">1</property>
     </object>
-    <object class="GtkAdjustment" id="seconds_ajustment">
+    <object class="GtkAdjustment" id="seconds_adjustment">
       <property name="lower">0</property>
       <property name="upper">59</property>
       <property name="value">0</property>

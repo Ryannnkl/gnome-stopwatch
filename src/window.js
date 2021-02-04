@@ -16,12 +16,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const { GObject, Gtk } = imports.gi;
+const { GLib, GObject, Gtk } = imports.gi;
 
 var StopwatchWindow = GObject.registerClass({
     GTypeName: 'StopwatchWindow',
     Template: 'resource:///org/rendapp/Stopwatch/window.ui',
     InternalChildren: [
+      'hours_adjustment',
+      'minutes_adjustment',
+      'seconds_adjustment',
       'hours_spinbutton',
       'minutes_spinbutton',
       'seconds_spinbutton',
@@ -40,17 +43,53 @@ var StopwatchWindow = GObject.registerClass({
     }
 
     _startButtonClicked() {
-      log("Clicked");
-      // this._stack.transition_type = "GTK_STACK_TRANSITION_TYPE_SLIDE_UP";
       this._stack.visible_child_name = 'pause_stop';
+      this._stopTimer = false;
+      this._hours_spinbutton.sensitive = false;
+      this._minutes_spinbutton.sensitive = false;
+      this._seconds_spinbutton.sensitive = false;
+
+      let seconds = this._hours_adjustment.value * 60 * 60 +
+        this._minutes_adjustment.value * 60 +
+        this._seconds_adjustment.value;
+
+      let timer = GLib.timeout_add_seconds(GLib.PPRIORITY_DEFAULT,1,() => {
+        if(this._stopTimer) {
+          this._stopTimer = false;
+          return GLib.SOURCE_REMOVE;
+        }
+
+        seconds--;
+
+        this._seconds_adjustment.value = seconds
+        if(seconds > 0) {
+          return GLib.SOURCE_CONTINUE;
+        }
+
+        this._stop();
+        return GLib.SOURCE_REMOVE;
+      })
     }
 
     _stopButtonClicked() {
-      this._stack.visible_child_name = 'start';
+      this._stopTimer = true;
+      this._stop();
     }
 
     _pauseButtonClicked() {
 
+    }
+
+    _stop() {
+
+      this._stack.visible_child_name = 'start';
+      this._hours_spinbutton.sensitive = true;
+      this._minutes_spinbutton.sensitive = true;
+      this._seconds_spinbutton.sensitive = true;
+
+      this._hours_adjustment.value = 0;
+      this._minutes_adjustment.value = 0;
+      this._seconds_adjustment.value = 0;
     }
 });
 
