@@ -16,7 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-const { GLib, GObject, Gtk } = imports.gi;
+const { Gio, GLib, GObject, Gtk } = imports.gi;
 
 var StopwatchWindow = GObject.registerClass({
     GTypeName: 'StopwatchWindow',
@@ -37,6 +37,8 @@ var StopwatchWindow = GObject.registerClass({
     _init(application) {
         super._init({ application });
 
+        this._application = application;
+
         this._start_button.connect('clicked',this._startButtonClicked.bind(this));
         this._stop_button.connect('clicked',this._stopButtonClicked.bind(this));
         this._pause_button.connect('clicked',this._pauseButtonClicked.bind(this));
@@ -45,6 +47,8 @@ var StopwatchWindow = GObject.registerClass({
     _startButtonClicked() {
       this._stack.visible_child_name = 'pause_stop';
       this._stopTimer = false;
+      this._pauseTimer = false;
+
       this._hours_spinbutton.sensitive = false;
       this._minutes_spinbutton.sensitive = false;
       this._seconds_spinbutton.sensitive = false;
@@ -54,6 +58,10 @@ var StopwatchWindow = GObject.registerClass({
         this._seconds_adjustment.value;
 
       let timer = GLib.timeout_add_seconds(GLib.PPRIORITY_DEFAULT,1,() => {
+        // pause timer
+        if(this._pauseTimer)
+          return GLib.SOURCE_CONTINUE;
+
         if(this._stopTimer) {
           this._stopTimer = false;
           return GLib.SOURCE_REMOVE;
@@ -61,12 +69,16 @@ var StopwatchWindow = GObject.registerClass({
 
         seconds--;
 
-        this._seconds_adjustment.value = seconds
+        this._hours_adjustment.value = Math.floor(seconds / 60 /60);
+        this._minutes_adjustment.value = (Math.floor(seconds / 60)) % 60 ;
+        this._seconds_adjustment.value = seconds % 60;
+
         if(seconds > 0) {
           return GLib.SOURCE_CONTINUE;
         }
-
+        this._notify();
         this._stop();
+
         return GLib.SOURCE_REMOVE;
       })
     }
@@ -77,7 +89,15 @@ var StopwatchWindow = GObject.registerClass({
     }
 
     _pauseButtonClicked() {
+      this._pauseTimer = !this._pauseTimer;
 
+      if(this._pauseTimer) {
+        this._pause_button.label = "Continuar";
+        this._pause_button.get_style_context().add_class("suggested-action");
+      } else {
+        this._pause_button.label = "Pausar";
+        this._pause_button.get_style_context().remove_class("suggested-action");
+      }
     }
 
     _stop() {
@@ -90,6 +110,17 @@ var StopwatchWindow = GObject.registerClass({
       this._hours_adjustment.value = 0;
       this._minutes_adjustment.value = 0;
       this._seconds_adjustment.value = 0;
+    }
+
+    _notify() {
+      const notification = new Gio.Notification();
+      notification.set_title("Contador finalizado");
+      notification.set_body("o contador chegou ao zero");
+
+      this._application.send_notification(
+        "org.rendapp.StopWatch.Over",
+        notification
+      );
     }
 });
 

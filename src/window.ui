@@ -75,7 +75,7 @@
             <property name="transition-type">GTK_STACK_TRANSITION_TYPE_SLIDE_DOWN</property>
             <child>
               <object class="GtkButton" id="start_button">
-                <property name="label">iniciar</property>
+                <property name="label">Iniciar</property>
                 <property name="visible">True</property>
                 <style>
                   <class name="suggested-action"/>
@@ -95,13 +95,13 @@
                 <property name="spacing">12</property>
                 <child>
                   <object class="GtkButton" id="pause_button">
-                    <property name="label" translatable="yes">pausar</property>
+                    <property name="label" translatable="yes">Pausar</property>
                     <property name="visible">True</property>
                   </object>
                 </child>
                 <child>
                   <object class="GtkButton" id="stop_button">
-                    <property name="label">parar</property>
+                    <property name="label">Parar</property>
                     <property name="visible">True</property>
                   </object>
                 </child>
